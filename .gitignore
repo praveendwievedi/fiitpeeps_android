@@ -1,0 +1,50 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (SDK path, etc.)
+local.properties
+
+# Log/OS Files
+*.log
+.DS_Store
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.aab
+*.apk
+output-metadata.json
+
+# IntelliJ / Android Studio IDEA files
+*.iml
+.idea/
+!idea/copyright  # Optional: keep if you use custom copyright profiles
+
+# Keystore files (Keep your signing keys private!)
+*.jks
+*.keystore
+
+# Google Services (Firebase / API keys)
+# Note: Be careful if your app depends on these for building; 
+# some teams prefer to include them but they often contain secrets.
+google-services.json
+
+# Kotlin specific
+.kotlin/
