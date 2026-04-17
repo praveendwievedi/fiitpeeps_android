@@ -101,6 +101,10 @@ class HomePage {
         }
     }
 
+
+
+    // the top bar of the Home Page
+
     //    @Preview(showBackground = true)
     @Composable
     fun Heading() {
@@ -144,7 +148,9 @@ class HomePage {
         }
     }
 
-//    annotation class TextUnit(val value: androidx.compose.ui.unit.TextUnit)
+
+
+    // the Body where we will show the calorie tracker and steps tracker
 
     //    @Preview(showBackground = true)
     @Composable
@@ -245,19 +251,15 @@ class HomePage {
 
     }
 
-//    @Composable
-//    fun divider(){
-//        Box(
-//            modifier = Modifier
-//                .background(color = Color.Gray)
-//        ){
-//
-//        }
-//    }
+
+
+
+    // the rest part where we will add the recommendation section
 
     //    @Preview(showBackground = true)
     @Composable
     fun HomePageFooter() {
+        var textColor=Color.White
         Column(
             modifier = Modifier
 //                .padding(20.dp)
@@ -275,19 +277,27 @@ class HomePage {
             Row(
                 modifier = Modifier
 //                    .align(Alignment.TopStart)
-                    .padding(10.dp, 2.dp)
-//                    .background(Color.Gray , shape = RoundedCornerShape(12.dp))
+                    .padding(15.dp, 2.dp)
+                    .background(Color.Blue, shape = RoundedCornerShape(12.dp))
+//                    .drawBehind(
+//
+//                        onDraw = {
+//
+//                        }
+//                    )
                 ,
                 horizontalArrangement = Arrangement.spacedBy(3.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "AI",
+                    color = textColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = 35.sp,
                 )
                 Text(
                     text = "Reccomendation",
+                    color = textColor ,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -355,40 +365,6 @@ class HomePage {
         }
     }
 
-//    private fun drawLine(
-//        color: Color,
-//        start: Offset,
-//        end: Offset,
-//        strokeWidth: Any
-//    ): (DrawScope) -> Unit {
-//    }
 
-    @Composable
-    fun FooterTraversal() {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center
-        ) {
-            HorizontalDivider(
-                thickness = 2.dp,
-                color = Color.Black
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(
-                    "Home",
-                    modifier = Modifier
-                        .border(2.dp, Color.Black)
-                )
-                Text("Diary")
-                Text("Setting")
-                Text("Profile")
-            }
-        }
-    }
 
 }
