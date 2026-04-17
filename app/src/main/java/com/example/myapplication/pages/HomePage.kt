@@ -15,13 +15,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,11 +49,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.*
 import kotlin.math.round
 
 // i am trying to push this code using second-device brach
 
 class HomePage {
+
+
+    val pages =listOf("Home","Dairy","Calorie","Profile")
 
     val ProfileText = 20
     var reccomendations = "Here we will get the recommendation form AI "
@@ -60,16 +69,35 @@ class HomePage {
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
     fun HomeScreen() {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+        var selectedPage by remember { mutableStateOf(0) }
+        Scaffold (
+            topBar = {Heading()},
+            bottomBar = {
+                NavigationBar {
+                    pages.forEachIndexed {
+                        index,page -> NavigationBarItem(
+                                icon = {Text(page.first().toString())},
+                                label = {Text(page)},
+                                selected = selectedPage==index,
+                                onClick = {selectedPage=index}
+                            )
+                    }
+                }
+            }
+
+        ){
+            innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState())
 //                .scrollable()
-        ) {
-            Heading()
-            BodyHomePage()
-            HomePageFooter()
-//            FooterTraversal()
+            ) {
+                BodyHomePage()
+                HomePageFooter()
+            }
         }
     }
 
@@ -234,6 +262,7 @@ class HomePage {
             modifier = Modifier
 //                .padding(20.dp)
                 .fillMaxSize()
+                .fillMaxHeight()
 //                .border(2.dp, Color.Gray)
         ,
         horizontalAlignment = Alignment.CenterHorizontally,
