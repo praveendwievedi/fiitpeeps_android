@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -29,6 +30,9 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,8 +58,6 @@ import kotlin.math.round
 
 // i am trying to push this code using second-device brach
 
-class HomePage {
-
 
     val pages =listOf("Home","Dairy","Calorie","Profile")
 
@@ -66,40 +68,51 @@ class HomePage {
     var descriptions =
         "Here AI will describe how was your physical activity and how is ur calorie intake"
 
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun HomeScreen() {
-        var selectedPage by remember { mutableStateOf(0) }
-        Scaffold (
-            topBar = {Heading()},
-            bottomBar = {
-                NavigationBar {
-                    pages.forEachIndexed {
-                        index,page -> NavigationBarItem(
-                                icon = {Text(page.first().toString())},
-                                label = {Text(page)},
-                                selected = selectedPage==index,
-                                onClick = {selectedPage=index}
-                            )
-                    }
-                }
-            }
-
-        ){
-            innerPadding ->
-            Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .verticalScroll(rememberScrollState())
-//                .scrollable()
-            ) {
-                BodyHomePage()
-                HomePageFooter()
-            }
-        }
-    }
+//    @OptIn(ExperimentalMaterial3Api::class)
+//    @Preview(showBackground = true, showSystemUi = true)
+//    @Composable
+//    fun HomeScreen() {
+//        var selectedPage by remember { mutableStateOf(0) }
+//        Scaffold (
+//            topBar = {
+//                Heading()
+////                TopAppBar(
+////                    title = {
+////                        Heading()
+////                    },
+////                    modifier = Modifier
+////                        .fillMaxWidth(),
+////                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Blue)
+////                )
+//            },
+//            bottomBar = {
+//                NavigationBar {
+//                    pages.forEachIndexed {
+//                        index,page -> NavigationBarItem(
+//                                icon = {Text(page.first().toString())},
+//                                label = {Text(page)},
+//                                selected = selectedPage==index,
+//                                onClick = {selectedPage=index}
+//                            )
+//                    }
+//                }
+//            }
+//
+//        ){
+//            contentPadding ->
+//            Column(
+//                modifier = Modifier
+//                    .padding(contentPadding)
+//                    .fillMaxWidth()
+//                    .fillMaxHeight()
+//                    .verticalScroll(rememberScrollState())
+////                .scrollable()
+//            ) {
+//                BodyHomePage()
+//                HomePageFooter()
+//            }
+//        }
+//    }
 
 
 
@@ -107,12 +120,13 @@ class HomePage {
 
     //    @Preview(showBackground = true)
     @Composable
-    fun Heading() {
+    fun HomePageHeading() {
         Box(
             modifier = Modifier
                 .background(color = Color.Blue)
                 .fillMaxWidth()
                 .height(80.dp)
+//                .fillMaxHeight()
                 .padding(20.dp),
             contentAlignment = Alignment.Center
         ) {
@@ -366,5 +380,3 @@ class HomePage {
     }
 
 
-
-}
