@@ -17,9 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication.pages.BodyHomePage
+//import com.example.myapplication.pages.BodyHomePage
 import com.example.myapplication.pages.DiaryBody
 import com.example.myapplication.pages.DiaryHeading
+import com.example.myapplication.pages.HomePageBody
 import com.example.myapplication.pages.HomePageHeading
 
 @Preview(showBackground = true)
@@ -50,8 +51,13 @@ fun MainScreen (){
         Column (
             modifier = Modifier.padding(contentPadding)
         ){
-            if(selectedScreen==0) BodyHomePage()
-            if (selectedScreen==1) DiaryBody()
+//            if(selectedScreen==0) BodyHomePage()
+////            if (selectedScreen==1) DiaryBody()
+            when (selectedScreen){
+                0 -> HomePageBody()
+                1 -> DiaryBody()
+            }
+
         }
     }
 

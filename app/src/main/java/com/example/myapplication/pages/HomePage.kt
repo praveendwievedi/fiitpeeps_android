@@ -38,7 +38,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -54,110 +53,69 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import kotlin.math.round
 
 // i am trying to push this code using second-device brach
 
-
-    val pages =listOf("Home","Dairy","Calorie","Profile")
-
     val ProfileText = 20
-    var reccomendations = "Here we will get the recommendation form AI "
-//        by remember { mutableStateOf("Here we will get the recommendation form AI ") }
 
-    var descriptions =
-        "Here AI will describe how was your physical activity and how is ur calorie intake"
-
-//    @OptIn(ExperimentalMaterial3Api::class)
-//    @Preview(showBackground = true, showSystemUi = true)
-//    @Composable
-//    fun HomeScreen() {
-//        var selectedPage by remember { mutableStateOf(0) }
-//        Scaffold (
-//            topBar = {
-//                Heading()
-////                TopAppBar(
-////                    title = {
-////                        Heading()
-////                    },
-////                    modifier = Modifier
-////                        .fillMaxWidth(),
-////                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Blue)
-////                )
-//            },
-//            bottomBar = {
-//                NavigationBar {
-//                    pages.forEachIndexed {
-//                        index,page -> NavigationBarItem(
-//                                icon = {Text(page.first().toString())},
-//                                label = {Text(page)},
-//                                selected = selectedPage==index,
-//                                onClick = {selectedPage=index}
-//                            )
-//                    }
-//                }
-//            }
-//
-//        ){
-//            contentPadding ->
-//            Column(
-//                modifier = Modifier
-//                    .padding(contentPadding)
-//                    .fillMaxWidth()
-//                    .fillMaxHeight()
-//                    .verticalScroll(rememberScrollState())
-////                .scrollable()
-//            ) {
-//                BodyHomePage()
-//                HomePageFooter()
-//            }
-//        }
-//    }
-
-
-
-    // the top bar of the Home Page
+@Preview(showBackground = true)
+@Composable
+fun HomeScreen() {
+    Column {
+        HomePageHeading()
+        HomePageBody()
+    }
+}
 
     //    @Preview(showBackground = true)
     @Composable
-    fun HomePageHeading() {
-        Box(
+    fun HomePageHeading(){
+        Row(
             modifier = Modifier
-                .background(color = Color.Blue)
                 .fillMaxWidth()
                 .height(80.dp)
-//                .fillMaxHeight()
-                .padding(20.dp),
-            contentAlignment = Alignment.Center
+                .background(color = Color.Blue)
+            ,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-//            Icon(
-//
-//            )
-            Text(
-                text = "FiitPeeps",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.CenterStart)
-            )
-//            CircleShape
             Box(
                 modifier = Modifier
-                    .background(color = Color.White, shape = CircleShape)
-                    .align(Alignment.CenterEnd)
-                    .size(40.dp)
-//                    .padding(2.dp)
-                    .border(2.dp, color = Color.Green, shape = CircleShape),
+                    .padding(20.dp)
+                    .fillMaxHeight()
+                ,
                 contentAlignment = Alignment.Center
-            ) {
-                // profile-photo
-                Text(
-                    text = "P",
-                    color = Color.Magenta,
-                    fontWeight = FontWeight.Black,
-                    fontSize = ProfileText.sp,
-                    fontFamily = FontFamily.Serif
-                )
+            ){
+                Text("FiitPeeps",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.SemiBold)
+//                Text("Home",
+//                    color = Color.White,
+//                    fontStyle = FontStyle.Italic,
+//                    fontSize = 10.sp,
+//                    modifier = Modifier.align(Alignment.BottomEnd)
+//
+//                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .width(40.dp)
+                    .fillMaxHeight()
+                    .background(color = Color.White, shape = CircleShape)
+                    .border(2.dp, Color.Magenta, CircleShape)
+                ,
+                contentAlignment = Alignment.Center
+            ){
+                Text("F",
+                    color = Color.Blue,
+                    fontSize = 20.sp,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Black)
             }
         }
     }
@@ -166,101 +124,102 @@ import kotlin.math.round
 
     // the Body where we will show the calorie tracker and steps tracker
 
-    //    @Preview(showBackground = true)
+//    @Preview(showBackground = true)
     @Composable
-    fun BodyHomePage() {
+    fun HomePageBody() {
+        var descriptions by remember { mutableStateOf( "Here AI will describe how was your physical activity and how is ur calorie intake"
+        ) }
+        var reccomendations by remember { mutableStateOf("Here we gonna put the recommendation we get from AI") }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(10.dp)
+            ,
 //            contentAlignment = Alignment.Center
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Row(
                 modifier = Modifier
-                    .background(
-                        color = Color.LightGray,
-                        shape = RoundedCornerShape(12.dp)
-                    )
-//                  .size(200.dp,100.dp)
-                    .padding(10.dp)
                     .fillMaxWidth()
-                    .height(100.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                    .height(120.dp)
+//                    .padding(10.dp,0.dp)
+                    .background(color = Color.LightGray , shape = RoundedCornerShape(12.dp))
+                ,
                 verticalAlignment = Alignment.CenterVertically,
-
-                ) {
-                Text(
-                    "Steps tracker",
-//                 fontSize = TextUnit.,
-                    fontWeight = FontWeight.SemiBold,
-                    fontStyle = FontStyle.Italic,
-//                    modifier = Modifier.align(Alignment.CenterStart)
-                )
+                horizontalArrangement = Arrangement.Center
+            ){
                 Box(
-                    contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .size(120.dp)
-                        .padding(10.dp)// Make it tall enough for text
-                ) {
+                        .fillMaxHeight()
+                        .fillMaxWidth(0.5f)
+                    ,
+                    contentAlignment = Alignment.Center
+                ){
+                    Text("Calrie Tracker")
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()
+                    ,
+                    contentAlignment = Alignment.Center
+                ){
+                    Text("5000/10,000")
                     CircularProgressIndicator(
-                        progress = { 0.5F },
+                        progress = {0.5f},
                         modifier = Modifier
-                            .fillMaxSize()
-//                            .fillMaxWidth(0.8f)
-                            .align(Alignment.TopCenter),
-                        color = Color.Green,
-                        strokeWidth = 10.dp
-                    )
-                    Text(
-                        text = "${(0.5F * 10000).toInt()}/10000",
-                        modifier = Modifier
-//                            .padding(10.dp)
-                            .align(Alignment.Center)
-//                        style = MaterialTheme.typography.labelSmall
+                            .fillMaxHeight()
+//                         .fillMaxWidth(0.5f)
+                            .width(120.dp)
+                            .padding(5.dp)
+                            .align(Alignment.Center),
+                        strokeWidth = 10.dp,
+                        color = Color.Yellow
                     )
                 }
             }
             Row(
                 modifier = Modifier
-                    .background(
-                        color = Color.LightGray,
-                        shape = RoundedCornerShape(12.dp)
-                    )
-//                  .size(200.dp,100.dp)
-                    .padding(10.dp)
                     .fillMaxWidth()
-                    .height(100.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                    .height(120.dp)
+//                    .padding(10.dp,0.dp)
+                    .background(color = Color.LightGray , shape = RoundedCornerShape(12.dp))
+                ,
                 verticalAlignment = Alignment.CenterVertically,
-
-                ) {
-                Text(
-                    "Total Calorie",
-//                 fontSize = TextUnit.,
-                    fontWeight = FontWeight.SemiBold,
-                    fontStyle = FontStyle.Italic,
-//                    modifier = Modifier.align(Alignment.CenterStart)
-                )
-                Column(
-                    verticalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
+            ){
+                Box(
                     modifier = Modifier
+                        .fillMaxHeight()
                         .fillMaxWidth(0.5f)
-                        .size(120.dp)
-                        .padding(10.dp)// Make it tall enough for text
-                ) {
+                    ,
+                    contentAlignment = Alignment.Center
+                ){
+                    Text("Calrie Tracker")
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+//                        .padding(0.dp,20.dp)
+                    ,
+                    contentAlignment = Alignment.Center
+                ){
+                    Text("5000/10,000",
+                        modifier = Modifier.align(Alignment.BottomCenter))
                     LinearProgressIndicator(
-                        progress = { 0.5F },
+                        progress = {0.5f},
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(10.dp)
-                    )
-                    Text(
-                        text = "${(0.5F * 10000).toInt()}/10000",
+                            .height(20.dp)
+                         .fillMaxWidth()
+                            .align(Alignment.Center),
+                        color = Color.Yellow,
 
-                        )
+                    )
                 }
             }
+            HomePageFooter(reccomendations,descriptions)
         }
 
     }
@@ -272,7 +231,7 @@ import kotlin.math.round
 
     //    @Preview(showBackground = true)
     @Composable
-    fun HomePageFooter() {
+    fun HomePageFooter(reccomendations : String , descriptions : String) {
         var textColor=Color.White
         Column(
             modifier = Modifier
