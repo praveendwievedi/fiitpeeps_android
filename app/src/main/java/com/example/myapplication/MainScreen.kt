@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -22,6 +23,7 @@ import com.example.myapplication.pages.DiaryBody
 import com.example.myapplication.pages.DiaryHeading
 import com.example.myapplication.pages.HomePageBody
 import com.example.myapplication.pages.HomePageHeading
+import com.example.myapplication.pages.SettingPageBody
 
 @Preview(showBackground = true)
 @Composable
@@ -29,8 +31,10 @@ fun MainScreen (){
     var selectedScreen by remember { mutableIntStateOf(0) }
     Scaffold(
         topBar = {
-            if (selectedScreen==0) HomePageHeading()
-            if(selectedScreen==1) DiaryHeading()
+            when (selectedScreen){
+                0-> HomePageHeading()
+                1 -> DiaryHeading()
+            }
         },
         bottomBar = {
             NavigationBar {
@@ -44,6 +48,11 @@ fun MainScreen (){
                     icon = { Icon(Icons.Default.AddCircle, contentDescription = "Diary") },
                     onClick = {selectedScreen=1}
                 )
+                NavigationBarItem(
+                    selected = selectedScreen==2,
+                    icon = { Icon(Icons.Default.Settings, contentDescription = "Profile") },
+                    onClick = {selectedScreen=2}
+                )
             }
         }
     ) {
@@ -56,6 +65,7 @@ fun MainScreen (){
             when (selectedScreen){
                 0 -> HomePageBody()
                 1 -> DiaryBody()
+                2-> SettingPageBody()
             }
 
         }
