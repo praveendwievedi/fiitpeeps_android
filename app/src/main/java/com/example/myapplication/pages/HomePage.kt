@@ -1,341 +1,373 @@
-package com.example.myapplication.pages
-
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.ScrollableState
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LocalFireDepartment
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.ProgressIndicatorDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import kotlin.math.round
-
-// i am trying to push this code using second-device brach
-
-    val ProfileText = 20
+import compose.icons.AllIcons
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Regular
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreen() {
+fun HomePage() {
     Column {
-        HomePageHeading()
+        HomePageTopBar()
         HomePageBody()
+//        AnimatedHeartButton()
+
     }
 }
 
-    //    @Preview(showBackground = true)
-    @Composable
-    fun HomePageHeading(){
+//@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomePageTopBar() {
+    var darkMode by remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(
+                0.2f
+            ),
+        contentAlignment = Alignment.CenterStart
+    ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
-                .background(color = Color.Blue)
-            ,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .padding(10.dp, 0.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .padding(20.dp)
-                    .fillMaxHeight()
-                ,
+                    .size(30.dp)
+                    .background(Color.Blue, shape = RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center
-            ){
-                Text("FiitPeeps",
+            ) {
+                Text(
+                    "F",
                     color = Color.White,
-                    fontSize = 20.sp,
+                    fontSize = 15.sp,
                     fontStyle = FontStyle.Italic,
-                    fontWeight = FontWeight.SemiBold)
-//                Text("Home",
-//                    color = Color.White,
-//                    fontStyle = FontStyle.Italic,
-//                    fontSize = 10.sp,
-//                    modifier = Modifier.align(Alignment.BottomEnd)
-//
-//                )
+                    fontWeight = FontWeight.Bold
+                )
             }
-            Box(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .width(40.dp)
-                    .fillMaxHeight()
-                    .background(color = Color.White, shape = CircleShape)
-                    .border(2.dp, Color.Magenta, CircleShape)
-                ,
-                contentAlignment = Alignment.Center
-            ){
-                Text("F",
-                    color = Color.Blue,
-                    fontSize = 20.sp,
-                    fontStyle = FontStyle.Italic,
-                    fontWeight = FontWeight.Black)
+            Text(
+                "FiitPeeps",
+                fontStyle = FontStyle.Italic,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        IconToggleButton(
+            modifier = Modifier.align(Alignment.CenterEnd),
+
+            checked = darkMode,
+            onCheckedChange = {
+                darkMode = !darkMode
+            },
+//            interactionSource = MutableInteractionSource(
+//                check(darkMode)
+//            )
+        ) {
+            when (darkMode) {
+                false -> Icon(
+                    Icons.Outlined.DarkMode,
+                    tint = Color.DarkGray,
+                    contentDescription = "Dark mode"
+                )
+
+                true -> Icon(
+                    Icons.Filled.LightMode,
+                    tint = Color.Yellow,
+                    contentDescription = "lighMode"
+                )
             }
         }
     }
+}
 
+//@Preview(showBackground = )
+@Composable
+fun HomePageBody() {
+    Column {
 
+        // Greetings
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .fillMaxWidth()
+                    .padding(10.dp, 0.dp),
+            ) {
+                Text("<Date>")
+                Box(
+//                    modifier = Modifier.
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        "Good Morning, Alex",
+                        fontSize = 20.sp,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.SemiBold
+                    )
+//                    Icon(Icons.Default.)
+                }
+            }
+            IconButton(
+                onClick = {},
+                modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                Icon(Icons.Default.Notifications, contentDescription = "")
+            }
+        }
 
-    // the Body where we will show the calorie tracker and steps tracker
-
-//    @Preview(showBackground = true)
-    @Composable
-    fun HomePageBody() {
-        var descriptions by remember { mutableStateOf( "Here AI will describe how was your physical activity and how is ur calorie intake"
-        ) }
-        var reccomendations by remember { mutableStateOf("Here we gonna put the recommendation we get from AI") }
-
+        // Slides for the Workout
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-            ,
-//            contentAlignment = Alignment.Center
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+                .padding(12.dp)
+                .shadow(
+                    elevation = 10.dp
+                )
+                .height(200.dp)
+                .background(Color.White, shape = RoundedCornerShape(10.dp))
         ) {
+
             Row(
                 modifier = Modifier
+                    .padding(0.dp, 10.dp)
                     .fillMaxWidth()
-                    .height(120.dp)
-//                    .padding(10.dp,0.dp)
-                    .background(color = Color.LightGray , shape = RoundedCornerShape(12.dp))
                 ,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ){
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Text("Today's Calories")
+                Box(
+                    modifier = Modifier
+                        .size(100.dp, 20.dp)
+                        .background(Color.Blue, shape = RoundedCornerShape(12.dp))
+                    ,
+                    contentAlignment = Alignment.Center
+                ){
+                    Text("On Track"
+                        ,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .padding(10.dp, 0.dp)
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
                         .fillMaxWidth(0.5f)
                     ,
                     contentAlignment = Alignment.Center
-                ){
-                    Text("Calrie Tracker")
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                    ,
-                    contentAlignment = Alignment.Center
-                ){
-                    Text("5000/10,000")
+                ) {
                     CircularProgressIndicator(
                         progress = {0.5f},
-                        modifier = Modifier
-                            .fillMaxHeight()
-//                         .fillMaxWidth(0.5f)
-                            .width(120.dp)
-                            .padding(5.dp)
-                            .align(Alignment.Center),
                         strokeWidth = 10.dp,
-                        color = Color.Yellow
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .fillMaxHeight()
+                            .align(Alignment.Center)
                     )
+                   Box(
+                       modifier = Modifier
+                           .padding(0.dp, 30.dp)
+                           .fillMaxHeight()
+                       , contentAlignment = Alignment.Center
+                   ){
+                       Icon(Icons.Outlined.LocalFireDepartment,
+                           tint = Color.Yellow,
+                           contentDescription = "",
+                           modifier = Modifier.align(Alignment.TopCenter))
+                       Text("<calorie_value>",
+                           modifier = Modifier.align(Alignment.Center)
+                           )
+                   }
                 }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
-//                    .padding(10.dp,0.dp)
-                    .background(color = Color.LightGray , shape = RoundedCornerShape(12.dp))
-                ,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ){
-                Box(
+                Column (
                     modifier = Modifier
                         .fillMaxHeight()
-                        .fillMaxWidth(0.5f)
-                    ,
-                    contentAlignment = Alignment.Center
-                ){
-                    Text("Calrie Tracker")
-                }
-                Box(
-                    modifier = Modifier
                         .fillMaxWidth()
-                        .height(60.dp)
-//                        .padding(0.dp,20.dp)
                     ,
-                    contentAlignment = Alignment.Center
-                ){
-                    Text("5000/10,000",
-                        modifier = Modifier.align(Alignment.BottomCenter))
+                    verticalArrangement = Arrangement.SpaceAround
+                ) {
                     LinearProgressIndicator(
                         progress = {0.5f},
-                        modifier = Modifier
-                            .height(20.dp)
-                         .fillMaxWidth()
-                            .align(Alignment.Center),
-                        color = Color.Yellow,
-
+                        color = Color.Blue,
+                        gapSize = (-0).dp,
+                        modifier = Modifier.height(10.dp)
+//                        strokeCap = 10.dp
+                    )
+                    LinearProgressIndicator(
+                        progress = {0.5f},
+                        modifier = Modifier.height(10.dp)
+                    )
+                    LinearProgressIndicator(
+                        progress = {0.5f},
+                        modifier = Modifier.height(10.dp)
                     )
                 }
             }
-            HomePageFooter(reccomendations,descriptions)
         }
 
+       StepsCardView()
     }
+}
 
 
-
-
-    // the rest part where we will add the recommendation section
-
-    //    @Preview(showBackground = true)
-    @Composable
-    fun HomePageFooter(reccomendations : String , descriptions : String) {
-        var textColor=Color.White
-        Column(
-            modifier = Modifier
-//                .padding(20.dp)
-                .fillMaxSize()
-                .fillMaxHeight()
-//                .border(2.dp, Color.Gray)
+// veiw card
+@Composable
+fun StepsCardView() {
+    Row(
+        modifier = Modifier
+            .padding(10.dp, 5.dp)
+            .fillMaxWidth()
         ,
-        horizontalAlignment = Alignment.CenterHorizontally,
-
-        ){
-            HorizontalDivider(
-                thickness = 1.dp,
-                color = Color.Gray
-            )
-            Row(
-                modifier = Modifier
-//                    .align(Alignment.TopStart)
-                    .padding(15.dp, 2.dp)
-                    .background(Color.Blue, shape = RoundedCornerShape(12.dp))
-//                    .drawBehind(
-//
-//                        onDraw = {
-//
-//                        }
-//                    )
-                ,
-                horizontalArrangement = Arrangement.spacedBy(3.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "AI",
-                    color = textColor,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 35.sp,
-                )
-                Text(
-                    text = "Reccomendation",
-                    color = textColor ,
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
-                    .padding(10.dp, 5.dp)
-                    .background(Color.Gray, shape = RoundedCornerShape(12.dp))
-
-            ) {
-                Text(
-                    "Descriptions",
-                    fontSize = 25.sp,
-                    modifier = Modifier
-                        .padding(10.dp, 3.dp),
-
-                    )
-                HorizontalDivider(
-                    thickness = 2.dp,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(10.dp, 0.dp)
-//                        .align(Ali)
-                )
-                Text(
-                    descriptions,
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .padding(10.dp, 3.dp)
-                )
-
-
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
-                    .padding(10.dp, 5.dp)
-                    .background(Color.Gray, shape = RoundedCornerShape(12.dp))
-            ) {
-                Text(
-                    "Improvements",
-                    fontSize = 25.sp,
-                    modifier = Modifier
-                        .padding(10.dp, 3.dp),
-
-                    )
-                HorizontalDivider(
-                    thickness = 2.dp,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(10.dp, 0.dp)
-//                        .align(Ali)
-                )
-                Text(
-                    reccomendations,
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .padding(10.dp, 3.dp)
-                )
-
-            }
-        }
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        MediumCardVeiw()
+        MediumCardVeiw()
+        MediumCardVeiw()
     }
 
+}
 
+
+// cards
+@Composable
+fun MediumCardVeiw(backGroudColor: String = "Color.White") {
+    Box(
+        modifier = Modifier
+            .shadow(
+                elevation = 10.dp
+            )
+            .width(100.dp)
+            .height(100.dp)
+            .background(Color.White, shape = RoundedCornerShape(12.dp))
+    ){}
+
+}
+
+// Reccomendation Card 
+
+@Composable
+fun ReccomendationCard() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(12.dp))
+    ){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f)
+        ){}
+        Row(){
+            Box(){}
+            Box(){}
+            Box(){}
+        }
+    }
+}
+
+
+//@Composable
+//fun AnimatedHeartButton() {
+//    var isChecked by remember { mutableStateOf(false) }
+//
+////    // 1. Create a transition based on the checked state
+////    val transition = updateTransition(targetState = isChecked, label = "FavoriteAnim")
+////
+////    // 2. Define the animation for the size (scale)
+////    val scale by transition.animateFloat(
+////        label = "Scale",
+////        transitionSpec = {
+////            if (false isTransitioningTo true) {
+////                // When turning ON: springy bounce
+////                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow)
+////            } else {
+////                // When turning OFF: simple quick shrink
+////                tween(durationMillis = 200)
+////            }
+////        }
+////    ) { state ->
+////        if (state) 1.5f else 1.0f // Scale up to 1.5x when checked
+////    }
+//
+//    // 3. Apply the scale to your Icon
+//    IconToggleButton(
+//        checked = isChecked,
+//        onCheckedChange = { isChecked = it }
+//    ) {
+//        Icon(
+//            imageVector = if (isChecked) Icons.Filled.LightMode else Icons.Outlined.DarkMode,
+//            contentDescription = null,
+//            tint = if (isChecked) Color.Yellow else Color.Gray,
+////            modifier = Modifier.graphicsLayer(scaleX = scale, scaleY = scale) // The magic line
+//        )
+//    }
+//}
