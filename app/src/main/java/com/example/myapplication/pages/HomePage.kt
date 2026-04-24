@@ -1,9 +1,11 @@
+import androidx.annotation.ColorInt
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -17,9 +19,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -31,6 +36,7 @@ import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -47,16 +53,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.CardViews.MediumCardVeiw
+import com.example.myapplication.R
+import com.example.myapplication.elements.RoundedCheckBox
 import compose.icons.AllIcons
 import compose.icons.FontAwesomeIcons
 import compose.icons.fontawesomeicons.Regular
@@ -64,7 +76,11 @@ import compose.icons.fontawesomeicons.Regular
 @Preview(showBackground = true)
 @Composable
 fun HomePage() {
-    Column {
+    Column(
+        modifier = Modifier
+            .background(Color(0xFFE3F2FD))
+            .fillMaxHeight()
+    ) {
         HomePageTopBar()
         HomePageBody()
 //        AnimatedHeartButton()
@@ -80,7 +96,7 @@ fun HomePageTopBar() {
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(
-                0.2f
+                0.1f
             ),
         contentAlignment = Alignment.CenterStart
     ) {
@@ -143,7 +159,11 @@ fun HomePageTopBar() {
 //@Preview(showBackground = )
 @Composable
 fun HomePageBody() {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+    ) {
 
         // Greetings
         Box(
@@ -180,100 +200,10 @@ fun HomePageBody() {
         }
 
         // Slides for the Workout
-        Column(
-            modifier = Modifier
-                .padding(12.dp)
-                .shadow(
-                    elevation = 10.dp
-                )
-                .height(200.dp)
-                .background(Color.White, shape = RoundedCornerShape(10.dp))
-        ) {
+        MediumCardVeiw {WorkoutCard()  }
 
-            Row(
-                modifier = Modifier
-                    .padding(0.dp, 10.dp)
-                    .fillMaxWidth()
-                ,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Text("Today's Calories")
-                Box(
-                    modifier = Modifier
-                        .size(100.dp, 20.dp)
-                        .background(Color.Blue, shape = RoundedCornerShape(12.dp))
-                    ,
-                    contentAlignment = Alignment.Center
-                ){
-                    Text("On Track"
-                        ,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth()
-                    .padding(10.dp, 0.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(0.5f)
-                    ,
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(
-                        progress = {0.5f},
-                        strokeWidth = 10.dp,
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .fillMaxHeight()
-                            .align(Alignment.Center)
-                    )
-                   Box(
-                       modifier = Modifier
-                           .padding(0.dp, 30.dp)
-                           .fillMaxHeight()
-                       , contentAlignment = Alignment.Center
-                   ){
-                       Icon(Icons.Outlined.LocalFireDepartment,
-                           tint = Color.Yellow,
-                           contentDescription = "",
-                           modifier = Modifier.align(Alignment.TopCenter))
-                       Text("<calorie_value>",
-                           modifier = Modifier.align(Alignment.Center)
-                           )
-                   }
-                }
-                Column (
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                    ,
-                    verticalArrangement = Arrangement.SpaceAround
-                ) {
-                    LinearProgressIndicator(
-                        progress = {0.5f},
-                        color = Color.Blue,
-                        gapSize = (-0).dp,
-                        modifier = Modifier.height(10.dp)
-//                        strokeCap = 10.dp
-                    )
-                    LinearProgressIndicator(
-                        progress = {0.5f},
-                        modifier = Modifier.height(10.dp)
-                    )
-                    LinearProgressIndicator(
-                        progress = {0.5f},
-                        modifier = Modifier.height(10.dp)
-                    )
-                }
-            }
-        }
-
-       StepsCardView()
+        StepsCardView()
+        MediumCardVeiw { ReccomendationCard()}
     }
 }
 
@@ -284,8 +214,7 @@ fun StepsCardView() {
     Row(
         modifier = Modifier
             .padding(10.dp, 5.dp)
-            .fillMaxWidth()
-        ,
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -308,7 +237,7 @@ fun MediumCardVeiw(backGroudColor: String = "Color.White") {
             .width(100.dp)
             .height(100.dp)
             .background(Color.White, shape = RoundedCornerShape(12.dp))
-    ){}
+    ) {}
 
 }
 
@@ -316,58 +245,148 @@ fun MediumCardVeiw(backGroudColor: String = "Color.White") {
 
 @Composable
 fun ReccomendationCard() {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White, shape = RoundedCornerShape(12.dp))
+            .fillMaxHeight()
     ){
-        Box(
+       Image(
+           painterResource(
+               id= R.drawable.workout_background
+           ),
+           contentDescription = "",
+           contentScale = ContentScale.FillBounds,
+           modifier = Modifier
+               .fillMaxHeight(0.8f)
+               .fillMaxWidth()
+               .clip(RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp))
+       )
+        Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.8f)
-        ){}
-        Row(){
-            Box(){}
-            Box(){}
-            Box(){}
+                .fillMaxHeight()
+            ,
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Row (
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RoundedCheckBox(false)
+                Text("Bench-Press")
+            }
+            Row (
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RoundedCheckBox(false)
+                Text("Bench-Press")
+            }
+            Row (
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RoundedCheckBox(false)
+                Text("Bench-Press")
+            }
+        }
+    }
+}
+
+@Composable
+fun WorkoutCard() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+
+        Row(
+            modifier = Modifier
+                .padding(0.dp, 10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Today's Calories")
+            Box(
+                modifier = Modifier
+                    .size(100.dp, 30.dp)
+                    .background(Color(0xFFE3F2FD), shape = RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    "On Track", color = Color(0xFF4682B4),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+//                            .background(Color(0xFFE3F2FD))
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .padding(10.dp, 0.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5f),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    progress = { 0.5f },
+                    strokeWidth = 10.dp,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .fillMaxHeight()
+                        .align(Alignment.Center)
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(0.dp, 30.dp), contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        Icons.Outlined.LocalFireDepartment,
+                        tint = Color.Yellow,
+                        contentDescription = "",
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    )
+                    Text(
+                        "<calorie_value>",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceAround
+            ) {
+                LinearProgressIndicator(
+                    progress = { 0.5f },
+                    color = Color.Blue,
+                    gapSize = (-0).dp,
+                    modifier = Modifier.height(10.dp)
+//                        strokeCap = 10.dp
+                )
+                LinearProgressIndicator(
+                    progress = { 0.5f },
+                    modifier = Modifier.height(10.dp)
+                )
+                LinearProgressIndicator(
+                    progress = { 0.5f },
+                    modifier = Modifier.height(10.dp)
+                )
+            }
         }
     }
 }
 
 
-//@Composable
-//fun AnimatedHeartButton() {
-//    var isChecked by remember { mutableStateOf(false) }
-//
-////    // 1. Create a transition based on the checked state
-////    val transition = updateTransition(targetState = isChecked, label = "FavoriteAnim")
-////
-////    // 2. Define the animation for the size (scale)
-////    val scale by transition.animateFloat(
-////        label = "Scale",
-////        transitionSpec = {
-////            if (false isTransitioningTo true) {
-////                // When turning ON: springy bounce
-////                spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow)
-////            } else {
-////                // When turning OFF: simple quick shrink
-////                tween(durationMillis = 200)
-////            }
-////        }
-////    ) { state ->
-////        if (state) 1.5f else 1.0f // Scale up to 1.5x when checked
-////    }
-//
-//    // 3. Apply the scale to your Icon
-//    IconToggleButton(
-//        checked = isChecked,
-//        onCheckedChange = { isChecked = it }
-//    ) {
-//        Icon(
-//            imageVector = if (isChecked) Icons.Filled.LightMode else Icons.Outlined.DarkMode,
-//            contentDescription = null,
-//            tint = if (isChecked) Color.Yellow else Color.Gray,
-////            modifier = Modifier.graphicsLayer(scaleX = scale, scaleY = scale) // The magic line
-//        )
-//    }
-//}
+
+
